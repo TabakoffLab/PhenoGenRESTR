@@ -1,0 +1,52 @@
+library(RCurl)
+library(jsonlite)
+
+phenogenURL="https://rest.phenogen.org/"
+
+getDatasets<-function(genomeVer="",organism="",panel="",type="",tissue=""){
+  isFirst=TRUE
+  url=paste(phenogenURL,"downloads/datasets",sep="")
+  if(genomeVer!="" || organism!="" || panel!="" ||type!=""){
+    url=paste(url,"?",sep="")
+  }
+  if(genomeVer!=""){
+    url=paste(url,"genomeVer=",genomeVer,sep="")
+    isFirst=FALSE
+  }
+  if(organism!=""){
+    if(isFirst){
+      isFirst=FALSE
+    }else{
+      url=paste(url,"&",sep="")
+    }
+    url=paste(url,"organism=",organism,sep="")
+  }
+  if(panel!=""){
+    if(isFirst){
+      isFirst=FALSE
+    }else{
+      url=paste(url,"&",sep="")
+    }
+    url=paste(url,"panel=",panel,sep="")
+  }
+  if(type!=""){
+    if(isFirst){
+      isFirst=FALSE
+    }else{
+      url=paste(url,"&",sep="")
+    }
+    url=paste(url,"type=",type,sep="")
+  }
+  if(tissue!=""){
+    if(isFirst){
+      isFirst=FALSE
+    }else{
+      url=paste(url,"&",sep="")
+    }
+    url=paste(url,"tissue=",tissue,sep="")
+  }
+  print(url)
+  ret=getURL(url)
+  dataf=fromJSON(ret)$data
+  return(dataf)
+}
