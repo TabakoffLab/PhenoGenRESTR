@@ -47,6 +47,36 @@ getDatasets<-function(genomeVer="",organism="",panel="",type="",tissue=""){
   }
   print(url)
   ret=getURL(url)
-  dataf=fromJSON(ret)$data
+  dataf=fromJSON(fromJSON(ret)$body)$data
+  return(dataf)
+}
+
+getDatasetResults<-function(datasetID=""){
+  isFirst=TRUE
+  url=paste(phenogenURL,"downloads/dataset?datasetID=",datasetID,sep="")
+  print(url)
+  ret=getURL(url)
+  print(ret)
+  dataf=fromJSON(fromJSON(ret)$body)$results
+  return(dataf)
+}
+
+getDatasetResultFiles<-function(datasetID="",resultID=""){
+  isFirst=TRUE
+  url=paste(phenogenURL,"downloads/dataset?datasetID=",datasetID,sep="")
+  print(url)
+  ret=getURL(url)
+  print(ret)
+  dataf=fromJSON(fromJSON(ret)$body)$results
+  return(dataf)
+}
+
+getDatasetResultFile<-function(datasetID="",resultID="",resultFileID){
+  isFirst=TRUE
+  url=paste(phenogenURL,"downloads/dataset?datasetID=",datasetID,sep="")
+  print(url)
+  ret=getURL(url)
+  print(ret)
+  dataf=fromJSON(fromJSON(ret)$body)$results
   return(dataf)
 }
