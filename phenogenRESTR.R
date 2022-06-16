@@ -56,27 +56,43 @@ getDatasetResults<-function(datasetID=""){
   url=paste(phenogenURL,"downloads/dataset?datasetID=",datasetID,sep="")
   print(url)
   ret=getURL(url)
-  print(ret)
+  #print(ret)
   dataf=fromJSON(fromJSON(ret)$body)$results
   return(dataf)
 }
 
-getDatasetResultFiles<-function(datasetID="",resultID=""){
+getDatasetResultFiles<-function(datasetID,resultID){
   isFirst=TRUE
-  url=paste(phenogenURL,"downloads/dataset?datasetID=",datasetID,sep="")
+  url=paste(phenogenURL,"downloads/datasetFiles?datasetID=",datasetID,"&resultID=",resultID,sep="")
   print(url)
   ret=getURL(url)
-  print(ret)
-  dataf=fromJSON(fromJSON(ret)$body)$results
+  #print(ret)
+  tmp=fromJSON(fromJSON(ret)$body)$datasetResult
+  dataf=tmp[["resultFiles"]]
   return(dataf)
 }
 
-getDatasetResultFile<-function(datasetID="",resultID="",resultFileID){
-  isFirst=TRUE
-  url=paste(phenogenURL,"downloads/dataset?datasetID=",datasetID,sep="")
-  print(url)
-  ret=getURL(url)
-  print(ret)
-  dataf=fromJSON(fromJSON(ret)$body)$results
+getDatasetResultFile<-function(URL=""){
+  if(endsWith(URL,"gz")){
+    con = gzcon(url(URL))
+    txt = readLines(con)
+    curSep="\t"
+    if(endsWith(URL,".csv.gz")){
+      curSep=","
+    }
+    txtCon=textConnection(txt)
+    dataf = read.table(txtCon,sep=curSep)
+    close(txtCon)
+  }else{
+    con = url(URL)
+    txt = readLines(con)
+    curSep="\t"
+    if(endsWith(URL,".csv")){
+      curSep=","
+    }
+    txtCon=textConnection(txt)
+    dataf = read.table(txtCon,sep = curSep)
+    close(txtCon)
+  }
   return(dataf)
 }
