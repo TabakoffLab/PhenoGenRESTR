@@ -54,7 +54,13 @@ getDatasets<-function(genomeVer="",organism="",panel="",type="",tissue="",help=F
     }
     print(url)
     ret=getURL(url)
-    dataf=fromJSON(fromJSON(ret)$body)$data
+    tmp=fromJSON(ret)$body
+    attach(tmp)
+    if(exists('message') && tmp$message !=""){
+      print(tmp$message)
+    }else{
+      dataf=tmp$data
+    }
   }
   return(dataf)
 }
@@ -72,7 +78,13 @@ getDatasetResults<-function(datasetID="",help=FALSE){
     print(url)
     ret=getURL(url)
     #print(ret)
-    dataf=fromJSON(fromJSON(ret)$body)$results
+    tmp=fromJSON(ret)$body
+    attach(tmp)
+    if(exists('message') && tmp$message !=""){
+      print(tmp$message)
+    }else{
+      dataf=tmp$results
+    }
   }
   return(dataf)
 }
@@ -89,8 +101,15 @@ getDatasetResultFiles<-function(datasetID,resultID,help=FALSE){
     url=paste(url,"?datasetID=",datasetID,"&resultID=",resultID,sep="")
     print(url)
     ret=getURL(url)
-    tmp=fromJSON(fromJSON(ret)$body)$datasetResult
-    dataf=tmp[["resultFiles"]]
+    tmp1=fromJSON(ret)$body
+    attach(tmp1)
+    if(exists('message') && tmp1$message !=""){
+      print(tmp1$message)
+    }else{
+      tmp=tmp1$datasetResult
+      dataf=tmp[["resultFiles"]]
+    }
+    
   }
   return(dataf)
 }
