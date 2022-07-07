@@ -41,6 +41,19 @@ the dataframe.  It does support gzipped files and unzipped files.  Currently it
 assumes tab delimited for anything other than .csv.  It will change the delimiter
 if the file ends in .csv.
 
+### getDatasetSamples()
+getDatasetSamples(datasetID,help) - creates a table of sample details from the metadata of the dataset.
+
+### getDatasetPipelineDetails()
+getDatasetPipelineDetails(datasetID,help) - creates a table of pipelines used to process the data in the results.
+Each pipeline has steps associated with it that can be viewed that can include the programs used with versions,
+URL for the program, and even the command line used if provided.
+
+### getDatasetProtocolDetails()
+getDatasetProtocolDetails(datasetID,help) - creates a table of protocols used in the library preparation.
+Beyond title and description details are provided as a download.  When available the URL will be provided to download
+the protocol used. Further detail not yet provided can include notes on individual samples.
+
 ## PhenoGen REST API 
 
 https://github.com/TabakoffLab/PhenoGenRESTAPI
