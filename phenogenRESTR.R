@@ -89,6 +89,78 @@ getDatasetResults<-function(datasetID="",help=FALSE){
   return(dataf)
 }
 
+getDatasetSamples<-function(datasetID="",help=FALSE){
+  url=paste(phenogenURL,"downloads/dataset",sep="")
+  dataf <- NULL
+  if(help){
+    url=paste(url,"?help=Y",sep="")
+    ret=getURL(url)
+    dataf=fromJSON(fromJSON(ret)$body)
+  }else{
+    isFirst=TRUE
+    url=paste(url,"?datasetID=",datasetID,sep="")
+    print(url)
+    ret=getURL(url)
+    #print(ret)
+    tmp=fromJSON(ret)$body
+    attach(tmp)
+    if(exists('message') && tmp$message !=""){
+      print(tmp$message)
+    }else{
+      dataf=tmp$metaData$samples
+    }
+  }
+  return(dataf)
+}
+
+getDatasetPipelineDetails<-function(datasetID="",help=FALSE){
+  url=paste(phenogenURL,"downloads/dataset",sep="")
+  dataf <- NULL
+  if(help){
+    url=paste(url,"?help=Y",sep="")
+    ret=getURL(url)
+    dataf=fromJSON(fromJSON(ret)$body)
+  }else{
+    isFirst=TRUE
+    url=paste(url,"?datasetID=",datasetID,sep="")
+    print(url)
+    ret=getURL(url)
+    #print(ret)
+    tmp=fromJSON(ret)$body
+    attach(tmp)
+    if(exists('message') && tmp$message !=""){
+      print(tmp$message)
+    }else{
+      dataf=tmp$metaData$pipelines
+    }
+  }
+  return(dataf)
+}
+
+getDatasetProtocolDetails<-function(datasetID="",help=FALSE){
+  url=paste(phenogenURL,"downloads/dataset",sep="")
+  dataf <- NULL
+  if(help){
+    url=paste(url,"?help=Y",sep="")
+    ret=getURL(url)
+    dataf=fromJSON(fromJSON(ret)$body)
+  }else{
+    isFirst=TRUE
+    url=paste(url,"?datasetID=",datasetID,sep="")
+    print(url)
+    ret=getURL(url)
+    #print(ret)
+    tmp=fromJSON(ret)$body
+    attach(tmp)
+    if(exists('message') && tmp$message !=""){
+      print(tmp$message)
+    }else{
+      dataf=tmp$metaData$protocols
+    }
+  }
+  return(dataf)
+}
+
 getDatasetResultFiles<-function(datasetID,resultID,help=FALSE){
   url=paste(phenogenURL,"downloads/datasetFiles",sep="")
   dataf <- NULL
