@@ -194,6 +194,9 @@ getDatasetResultFile<-function(URL=""){
     if(endsWith(URL,".csv.gz")){
       curSep=","
     }
+    if(grepl("v6",URL)){
+      curSep=" "
+    }
     txtCon=textConnection(txt)
     dataf = read.table(txtCon,sep=curSep)
     close(txtCon)
@@ -203,6 +206,9 @@ getDatasetResultFile<-function(URL=""){
     curSep="\t"
     if(endsWith(URL,".csv")){
       curSep=","
+    }
+    if(grepl("v6",URL)){
+      curSep=" "
     }
     txtCon=textConnection(txt)
     dataf = read.table(txtCon,sep = curSep)
