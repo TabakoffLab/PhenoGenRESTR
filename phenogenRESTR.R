@@ -175,7 +175,7 @@ getDatasetResultFiles<-function(datasetID,resultID,help=FALSE){
     ret=getURL(url)
     tmp1=fromJSON(ret)$body
     attach(tmp1)
-    if(exists('message') && tmp1$message !=""){
+    if(exists('message') && tmp1$message != ""){
       print(tmp1$message)
     }else{
       tmp=tmp1$datasetResult
@@ -266,16 +266,13 @@ getMarkerFiles<-function(markerSetID,help=FALSE){
     url=paste(url,"?markerSetID=",markerSetID,sep="")
     print(url)
     ret=getURL(url)
-    print(ret)
     tmp1=fromJSON(ret)$body
     attach(tmp1)
     if(!is.null(tmp1)){
       if(exists('message') && tmp1$message !=""){
         print(tmp1$message)
       }else{
-        print(tmp1)
         tmp=tmp1$data
-        print(tmp)
         dataf=tmp
       }
     }
@@ -288,12 +285,6 @@ getMarkerFile<-function(URL=""){
     con = gzcon(url(URL))
     txt = readLines(con)
     curSep="\t"
-    #if(endsWith(URL,".csv.gz")){
-    #  curSep=","
-    #}
-    #if(grepl("v6",URL)){
-    #  curSep=" "
-    #}
     txtCon=textConnection(txt)
     dataf = read.table(txtCon,sep=curSep)
     close(txtCon)
