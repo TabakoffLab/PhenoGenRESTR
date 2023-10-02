@@ -1,9 +1,3 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
 # PhenoGenRESTR - R Package to access PhenoGen Data via REST API
 
 ## Sections: [Functions](#Currently-supported-functions)  [Examples](#Examples)  [Rest API](#PhenoGen-REST-API)
