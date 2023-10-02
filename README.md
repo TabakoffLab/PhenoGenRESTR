@@ -54,6 +54,16 @@ getDatasetProtocolDetails(datasetID,help) - creates a table of protocols used in
 Beyond title and description details are provided as a download.  When available the URL will be provided to download
 the protocol used. Further detail not yet provided can include notes on individual samples.
 
+### getMarkerSets()
+gets a list of MarkerSets available.
+
+### getMarkerFiles()
+ - returns a list of marker set files available.
+
+### getMarkerFile()
+getMarkerFile(URL,help) - returns a table with the marker set file loaded.
+
+
 ## PhenoGen REST API 
 
 https://github.com/TabakoffLab/PhenoGenRESTAPI

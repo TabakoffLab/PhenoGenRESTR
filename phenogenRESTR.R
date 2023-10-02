@@ -216,3 +216,101 @@ getDatasetResultFile<-function(URL=""){
   }
   return(dataf)
 }
+
+getMarkerSets<-function(genomeVer="",organism="",help=FALSE){
+  url=paste(phenogenURL,"downloads/markerSets",sep="")
+  dataf <- NULL
+  if(help){
+    url=paste(url,"?help=Y",sep="")
+    ret=getURL(url)
+    dataf=fromJSON(fromJSON(ret)$body)
+  }else{
+    isFirst=TRUE
+    if(genomeVer!="" || organism!=""){
+      url=paste(url,"?",sep="")
+    }
+    if(genomeVer!=""){
+      url=paste(url,"genomeVer=",genomeVer,sep="")
+      isFirst=FALSE
+    }
+    if(organism!=""){
+      if(isFirst){
+        isFirst=FALSE
+      }else{
+        url=paste(url,"&",sep="")
+      }
+      url=paste(url,"organism=",organism,sep="")
+    }
+    print(url)
+    ret=getURL(url)
+    tmp=fromJSON(ret)$body
+    attach(tmp)
+    if(exists('message') && tmp$message !=""){
+      print(tmp$message)
+    }else{
+      dataf=tmp$data
+    }
+  }
+  return(dataf)
+}
+
+getMarkerFiles<-function(markerSetID,help=FALSE){
+  url=paste(phenogenURL,"downloads/markerFiles/",sep="")
+  dataf <- NULL
+  if(help){
+    url=paste(url,"?help=Y",sep="")
+    ret=getURL(url)
+    dataf=fromJSON(fromJSON(ret)$body)
+  }else{
+    isFirst=TRUE
+    url=paste(url,"?markerSetID=",markerSetID,sep="")
+    print(url)
+    ret=getURL(url)
+    print(ret)
+    tmp1=fromJSON(ret)$body
+    attach(tmp1)
+    if(!is.null(tmp1)){
+      if(exists('message') && tmp1$message !=""){
+        print(tmp1$message)
+      }else{
+        print(tmp1)
+        tmp=tmp1$data
+        print(tmp)
+        dataf=tmp
+      }
+    }
+  }
+  return(dataf)
+}
+
+getMarkerFile<-function(URL=""){
+  if(endsWith(URL,"gz")){
+    con = gzcon(url(URL))
+    txt = readLines(con)
+    curSep="\t"
+    #if(endsWith(URL,".csv.gz")){
+    #  curSep=","
+    #}
+    #if(grepl("v6",URL)){
+    #  curSep=" "
+    #}
+    txtCon=textConnection(txt)
+    dataf = read.table(txtCon,sep=curSep)
+    close(txtCon)
+  }else{
+    con = url(URL)
+    txt = readLines(con)
+    curSep="\t"
+    if(endsWith(URL,".csv")){
+      curSep=","
+    }
+    if(grepl("v6",URL)){
+      curSep=" "
+    }
+    txtCon=textConnection(txt)
+    dataf = read.table(txtCon,sep = curSep)
+    close(txtCon)
+  }
+  return(dataf)
+}
+
