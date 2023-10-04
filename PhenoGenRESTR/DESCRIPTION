@@ -1,0 +1,11 @@
+Package: PhenoGenRESTR
+Type: Package
+Title: R wrapper functions for the PhenoGen REST API
+Version: 0.0.2
+Author: Spencer Mahaffey
+Maintainer: Spencer Mahaffey <Spencer.Mahaffey@cuanschutz.edu>
+Description: Functions that call the REST API and parse the returned JSON data into a dataframe.
+License: MIT
+Imports: RCurl, jsonlite
+Encoding: UTF-8
+LazyData: true
