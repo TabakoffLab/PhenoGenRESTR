@@ -1,6 +1,14 @@
 # PhenoGenRESTR - R Package to access PhenoGen Data via REST API
 
-## Sections: [Functions](#Currently-supported-functions) [Example Usage](#Example-Usage) [Example Function Calls](#Examples)  [Rest API](#PhenoGen-REST-API)
+## Sections: 
+
+[Functions](#Currently-supported-functions) 
+
+[Example Usage](#Example-Usage) 
+
+[Example Function Calls](#Examples)  
+
+[Rest API](#PhenoGen-REST-API)
 
 We will continue to develop this. Initially this will primarily be a
 file with a set of functions. We will work to turn this into a package
