@@ -1,7 +1,15 @@
+#'
+#'
+#'
+#'
+#'
+
 library(RCurl)
 library(jsonlite)
 
 phenogenURL="https://rest.phenogen.org/"
+
+
 
 getDatasets<-function(genomeVer="",organism="",panel="",type="",tissue="",help=FALSE){
   url=paste(phenogenURL,"downloads/datasets",sep="")
@@ -12,7 +20,7 @@ getDatasets<-function(genomeVer="",organism="",panel="",type="",tissue="",help=F
     dataf=fromJSON(fromJSON(ret)$body)
   }else{
     isFirst=TRUE
-    
+
     if(genomeVer!="" || organism!="" || panel!="" ||type!=""){
       url=paste(url,"?",sep="")
     }
@@ -181,7 +189,7 @@ getDatasetResultFiles<-function(datasetID,resultID,help=FALSE){
       tmp=tmp1$datasetResult
       dataf=tmp[["resultFiles"]]
     }
-    
+
   }
   return(dataf)
 }
