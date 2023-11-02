@@ -1,3 +1,7 @@
 exportPattern("^[[:alpha:]]+")
 import(RCurl)
 import(jsonlite)
+import(dplyr)
+import(tidyr)
+import(stringr)
+importFrom("utils", "read.table")

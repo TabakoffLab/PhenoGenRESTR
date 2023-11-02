@@ -6,6 +6,9 @@
 
 library(RCurl)
 library(jsonlite)
+library(dplyr)
+library(tidyr)
+library(stringr)
 
 phenogenURL="https://rest.phenogen.org/"
 
@@ -63,8 +66,8 @@ getDatasets<-function(genomeVer="",organism="",panel="",type="",tissue="",help=F
     print(url)
     ret=getURL(url)
     tmp=fromJSON(ret)$body
-    attach(tmp)
-    if(exists('message') && tmp$message !=""){
+    #attach(tmp)
+    if( ! is.null(attr(tmp,"message")) & tmp$message !=""){
       print(tmp$message)
     }else{
       dataf=tmp$data
@@ -87,8 +90,8 @@ getDatasetResults<-function(datasetID="",help=FALSE){
     ret=getURL(url)
     #print(ret)
     tmp=fromJSON(ret)$body
-    attach(tmp)
-    if(exists('message') && tmp$message !=""){
+    #attach(tmp)
+    if(!is.null(attr(tmp,"message")) & tmp$message !=""){
       print(tmp$message)
     }else{
       dataf=tmp$results
@@ -111,8 +114,7 @@ getDatasetSamples<-function(datasetID="",help=FALSE){
     ret=getURL(url)
     #print(ret)
     tmp=fromJSON(ret)$body
-    attach(tmp)
-    if(exists('message') && tmp$message !=""){
+    if(!is.null(attr(tmp,"message")) & tmp$message !=""){
       print(tmp$message)
     }else{
       dataf=tmp$metaData$samples
@@ -135,8 +137,8 @@ getDatasetPipelineDetails<-function(datasetID="",help=FALSE){
     ret=getURL(url)
     #print(ret)
     tmp=fromJSON(ret)$body
-    attach(tmp)
-    if(exists('message') && tmp$message !=""){
+    #attach(tmp)
+    if(!is.null(attr(tmp,"message")) & tmp$message !=""){
       print(tmp$message)
     }else{
       dataf=tmp$metaData$pipelines
@@ -159,8 +161,8 @@ getDatasetProtocolDetails<-function(datasetID="",help=FALSE){
     ret=getURL(url)
     #print(ret)
     tmp=fromJSON(ret)$body
-    attach(tmp)
-    if(exists('message') && tmp$message !=""){
+    #attach(tmp)
+    if(!is.null(attr(tmp,"message")) & tmp$message !=""){
       print(tmp$message)
     }else{
       dataf=tmp$metaData$protocols
@@ -182,8 +184,8 @@ getDatasetResultFiles<-function(datasetID,resultID,help=FALSE){
     print(url)
     ret=getURL(url)
     tmp1=fromJSON(ret)$body
-    attach(tmp1)
-    if(exists('message') && tmp1$message != ""){
+    #attach(tmp1)
+    if(!is.null(attr(tmp1,"message")) & tmp1$message != ""){
       print(tmp1$message)
     }else{
       tmp=tmp1$datasetResult
@@ -195,7 +197,9 @@ getDatasetResultFiles<-function(datasetID,resultID,help=FALSE){
 }
 
 getDatasetResultFile<-function(URL=""){
-  if(endsWith(URL,"gz")){
+  if(grepl(".gtf",URL)){
+    return(getDatasetGTF(URL))
+  }else if(endsWith(URL,"gz")){
     con = gzcon(url(URL))
     txt = readLines(con)
     curSep="\t"
@@ -225,6 +229,68 @@ getDatasetResultFile<-function(URL=""){
   return(dataf)
 }
 
+getDatasetGTF<-function(URL="",splitIDColumn=FALSE,select="ALL"){
+  if(endsWith(URL,"gz")){
+    con = gzcon(url(URL))
+    txt = readLines(con)
+  }else{
+    con = url(URL)
+    txt = readLines(con)
+  }
+  txtCon=textConnection(txt)
+  dataf = read.table(txtCon,sep = "\t")
+  close(txtCon)
+  dataf <- dataf %>%
+    rename(
+       'Chromosome' = 'V1' ,
+      'Source' = 'V2' ,
+      'Feature' = 'V3',
+      'Coord_Start' = 'V4',
+      'Coord_End' = 'V5',
+      'Score' = 'V6',
+      'Strand' = 'V7'
+    )
+  dataf <- filterGTF(dataf,splitIDColumn=splitIDColumn,select=select)
+  return(dataf)
+}
+
+
+
+filterGTF <- function(gtfDataFrame,splitIDColumn=FALSE,select="ALL"){
+  newDataf <- gtfDataFrame
+  if(splitIDColumn){
+    #temporary Only deal with first 2 IDs and assume they are in order GENE; Transcript;
+    newDataf <- newDataf %>% separate_wider_delim(cols="V9" , delim = ";",names=c("Gene","Transcript"), too_many = "drop")
+    newDataf <- newDataf %>% mutate(across('Gene', \(x) str_replace(x,'gene_id ', '')))
+    newDataf <- newDataf %>% mutate(across('Transcript', \(x) str_replace(x,'transcript_id ', '')))
+    #working on new code to handle any number of IDs and handle being out of order
+    #newDataf <- newDataf %>% separate_wider_delim(cols="V9" , delim = ";",names_sep = "_", names_repair = nameFunct)
+    #newDataf %>% mutate(across('V9_2', \(x) str_replace(x,'^ | $', '')))
+    #colList <- unique(newDataf %>% separate_wider_delim(cols="V9_*" , delim = " ", names="ID,VALUE")$ID)
+
+  }
+  if(select!="ALL"){
+    if(select=="TRANSCRIPTS"){
+      newDataf <- newDataf[grepl("transcript", newDataf$Feature),]
+    }else if(select=="EXONS"){
+      newDataf <- newDataf[grepl("exon", newDataf$Feature),]
+    }else{
+      warning("WARNING: select = ALL,TRANSCRIPTS,EXONS is supported.  No Filtering was performed.")
+    }
+  }
+  return(newDataf)
+}
+
+
+nameFunct <- function(name){
+  newName=name
+
+  return(newName)
+}
+
+
+
+
 getMarkerSets<-function(genomeVer="",organism="",help=FALSE){
   url=paste(phenogenURL,"downloads/markerSets",sep="")
   dataf <- NULL
@@ -252,8 +318,8 @@ getMarkerSets<-function(genomeVer="",organism="",help=FALSE){
     print(url)
     ret=getURL(url)
     tmp=fromJSON(ret)$body
-    attach(tmp)
-    if(exists('message') && tmp$message !=""){
+    #attach(tmp)
+    if(!is.null(attr(tmp,"message")) &tmp$message !=""){
       print(tmp$message)
     }else{
       dataf=tmp$data
@@ -275,15 +341,14 @@ getMarkerFiles<-function(markerSetID,help=FALSE){
     print(url)
     ret=getURL(url)
     tmp1=fromJSON(ret)$body
-    attach(tmp1)
-    if(!is.null(tmp1)){
-      if(exists('message') && tmp1$message !=""){
-        print(tmp1$message)
-      }else{
-        tmp=tmp1$data
-        dataf=tmp
-      }
+    #attach(tmp1)
+    if(!is.null(attr(tmp1,"message")) & tmp1$message !=""){
+      print(tmp1$message)
+    }else{
+      tmp=tmp1$data
+      dataf=tmp
     }
+
   }
   return(dataf)
 }
@@ -312,4 +377,13 @@ getMarkerFile<-function(URL=""){
   }
   return(dataf)
 }
+
+
+
+
+
+
+
+
+
 
