@@ -372,48 +372,535 @@ this for testing and please be aware the rate of calls allows is more
 limited.</p>
 <p>New functions that haven’t been deployed to production will appear in
 testing first and will be implemented in development branch first.</p>
+<hr />
 </div>
 <div id="currently-supported-functions" class="section level2">
 <h2>Currently supported functions</h2>
-<div id="datasets" class="section level3">
-<h3>Datasets</h3>
+<p><a href="#Data-Sets">Data Sets</a></p>
+<p><a href="#Markers">Markers</a></p>
+<p><a href="#Utility-Functions">Utility Functions</a></p>
+<hr />
+<div id="data-sets" class="section level3">
+<h3>Data Sets</h3>
 <div id="getdatasets" class="section level4">
 <h4>getDatasets()</h4>
-<p>getDatasets(genomeVer,organism,panel,type,tissue,help) - returns a
-dataframe containing a list of datasets available. If you specify any
-parameters it will filter the list based on the parameters. (type must
-be either “totalRNA” or “smallRNA”)</p>
+<p>getDatasets( genomeVer, organism, panel, type, tissue, help) -
+returns a dataframe containing a list of datasets available. If you
+specify any parameters it will filter the list based on the parameters.
+(type must be either “totalRNA” or “smallRNA”)</p>
+<div id="example" class="section level5">
+<h5>Example</h5>
+<p><code>phenoGenDatasets=getDatasets()</code></p>
+<table style="width:100%;">
+<colgroup>
+<col width="6%" />
+<col width="6%" />
+<col width="9%" />
+<col width="29%" />
+<col width="13%" />
+<col width="8%" />
+<col width="18%" />
+<col width="6%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">datasetID</th>
+<th align="left">organism</th>
+<th align="left">panel</th>
+<th align="left">description</th>
+<th align="left">created</th>
+<th align="left">tissue</th>
+<th align="left">SeqType</th>
+<th align="left">GenomeVer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">Mm</td>
+<td align="left">ILS/ISS</td>
+<td align="left">Whole Brain from ILS/ISS Parental Strains</td>
+<td align="left">2017-10-26 00:00:00</td>
+<td align="left">Whole Brain</td>
+<td align="left">smallRNA</td>
+<td align="left">mm10</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">Mm</td>
+<td align="left">ILS/ISS Panel</td>
+<td align="left">Whole Brain from ILS/ISS RI Panel</td>
+<td align="left">2017-10-30 00:00:00</td>
+<td align="left">Whole Brain</td>
+<td align="left">smallRNA</td>
+<td align="left">mm10</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Rn</td>
+<td align="left">HRDP</td>
+<td align="left">HRDP v5 Whole Brain 45 Strains</td>
+<td align="left">2020-06-20 00:00:00</td>
+<td align="left">Whole Brain</td>
+<td align="left">ribosome depleted totalRNA</td>
+<td align="left">rn6</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Rn</td>
+<td align="left">HRDP</td>
+<td align="left">HRDP v5 Liver 45 Strains</td>
+<td align="left">2020-06-20 00:00:00</td>
+<td align="left">Liver</td>
+<td align="left">ribosome depleted totalRNA</td>
+<td align="left">rn6</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Rn</td>
+<td align="left">HRDP</td>
+<td align="left">HRDP v5 Kidney 28 Strains</td>
+<td align="left">2020-06-20 00:00:00</td>
+<td align="left">Kidney</td>
+<td align="left">ribosome depleted totalRNA</td>
+<td align="left">rn6</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">Rn</td>
+<td align="left">HRDP</td>
+<td align="left">HRDP v5 Heart BNLx/SHR</td>
+<td align="left">2021-08-07 00:00:00</td>
+<td align="left">Heart</td>
+<td align="left">ribosome depleted totalRNA</td>
+<td align="left">rn6</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="getdatasetresults" class="section level4">
 <h4>getDatasetResults()</h4>
-<p>getDatasetResults(datasetID,help) - returns a list of results for the
-dataset.<br />
+<p>getDatasetResults( datasetID, help ) - returns a list of results for
+the dataset.<br />
 Results reflect different types of data, transcriptome reconstruction,
 RSEM results on a specific version of the transcriptome. From the
 results you can request a list of files( getDatasetResultFiles() ).</p>
+<div id="example-1" class="section level5">
+<h5>Example</h5>
+<p><code>phenoGenDataset=getDatasetResults(datasetID=6)</code></p>
+<table>
+<colgroup>
+<col width="9%" />
+<col width="40%" />
+<col width="15%" />
+<col width="13%" />
+<col width="21%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">resultID</th>
+<th align="left">type</th>
+<th align="left">genomeVersion</th>
+<th align="left">hrdpVersion</th>
+<th align="left">dateCreated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">Quantification-RSEM - Ensembl</td>
+<td align="left">rn6</td>
+<td align="left">5</td>
+<td align="left">2020-06-20 00:00:00</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">Transcriptome Reconstruction</td>
+<td align="left">rn6</td>
+<td align="left">5</td>
+<td align="left">2020-06-20 00:00:00</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">Quantification-RSEM - Reconstruction</td>
+<td align="left">rn6</td>
+<td align="left">5</td>
+<td align="left">2020-06-20 00:00:00</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="getdatasetresultfiles" class="section level4">
 <h4>getDatasetResultFiles()</h4>
-<p>getDatasetResultFiles(datasetID,resultID,help) - returns a list of
-files for the dataset/result specified. The results include the URL to
-download the file and can be given to getDatasetResultFile() to load the
-file into R.</p>
+<p>getDatasetResultFiles( datasetID, resultID, help ) - returns a list
+of files for the dataset/result specified. The results include the URL
+to download the file and can be given to getDatasetResultFile() to load
+the file into R.</p>
+<div id="example-2" class="section level5">
+<h5>Example</h5>
+<p><code>phenoGenDatasetFiles=getDatasetResultFiles(datasetID=6,resultID=7)</code></p>
+<table>
+<colgroup>
+<col width="2%" />
+<col width="6%" />
+<col width="23%" />
+<col width="37%" />
+<col width="10%" />
+<col width="4%" />
+<col width="3%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">fileID</th>
+<th align="left">uploadDate</th>
+<th align="left">fileName</th>
+<th align="left">URL</th>
+<th align="left">checksum</th>
+<th align="left">genomeVersion</th>
+<th align="left">description</th>
+<th align="left">annotation</th>
+<th align="left">level</th>
+<th align="left">strainMeans</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">15</td>
+<td align="left">2020-06-20 00:00:00</td>
+<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz</td>
+<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz</a></td>
+<td align="left">339492503250921c1e12f062fd538598</td>
+<td align="left">rn6</td>
+<td align="left">NA</td>
+<td align="left">Reconstruction</td>
+<td align="left">Gene</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="left">2020-06-20 00:00:00</td>
+<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.strainMeans.txt.gz</td>
+<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.strainMeans.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.strainMeans.txt.gz</a></td>
+<td align="left">8f2fa86774aed5602432ba20a898f116</td>
+<td align="left">rn6</td>
+<td align="left">NA</td>
+<td align="left">Reconstruction</td>
+<td align="left">Transcript</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="left">2020-06-20 00:00:00</td>
+<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.txt.gz</td>
+<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.txt.gz</a></td>
+<td align="left">e7f4a4ef7d3aa94db0323abcbf7bd1f1</td>
+<td align="left">rn6</td>
+<td align="left">NA</td>
+<td align="left">Reconstruction</td>
+<td align="left">Gene</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="left">2020-06-20 00:00:00</td>
+<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.txt.gz</td>
+<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.txt.gz</a></td>
+<td align="left">fad306dc42914bd071556b65f45f8eae</td>
+<td align="left">rn6</td>
+<td align="left">NA</td>
+<td align="left">Reconstruction</td>
+<td align="left">Transcript</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="getdatasetresultfile" class="section level4">
 <h4>getDatasetResultFile()</h4>
-<p>getDatasetResultFile(URL) - tries to read a table from the given file
-and return the dataframe. It does support gzipped files and unzipped
-files. Currently it assumes tab delimited for anything other than .csv.
-It will change the delimiter if the file ends in .csv.</p>
+<p>getDatasetResultFile( URL ) - tries to read a table from the given
+file and return the dataframe. It does support gzipped files and
+unzipped files. Currently it assumes tab delimited for anything other
+than .csv. It will change the delimiter if the file ends in .csv.</p>
+<div id="example-3" class="section level5">
+<h5>Example</h5>
+<p><code>phenoGenData=getDatasetResultFile(URL=&quot;https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz&quot;)</code></p>
+<table style="width:100%;">
+<colgroup>
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">ACI.SegHsd</th>
+<th align="right">BNLx</th>
+<th align="right">BXH10</th>
+<th align="right">BXH11</th>
+<th align="right">BXH12</th>
+<th align="right">BXH13</th>
+<th align="right">BXH2</th>
+<th align="right">BXH3</th>
+<th align="right">BXH5</th>
+<th align="right">BXH6</th>
+<th align="right">BXH8</th>
+<th align="right">BXH9</th>
+<th align="right">Cop.CrCrl</th>
+<th align="right">DA</th>
+<th align="right">F344.NCl</th>
+<th align="right">F344.NHsd</th>
+<th align="right">F344.Stm</th>
+<th align="right">HXB1</th>
+<th align="right">HXB10</th>
+<th align="right">HXB13</th>
+<th align="right">HXB15</th>
+<th align="right">HXB17</th>
+<th align="right">HXB18</th>
+<th align="right">HXB2</th>
+<th align="right">HXB20</th>
+<th align="right">HXB21</th>
+<th align="right">HXB22</th>
+<th align="right">HXB23</th>
+<th align="right">HXB24</th>
+<th align="right">HXB25</th>
+<th align="right">HXB27</th>
+<th align="right">HXB29</th>
+<th align="right">HXB3</th>
+<th align="right">HXB31</th>
+<th align="right">HXB4</th>
+<th align="right">HXB5</th>
+<th align="right">HXB7</th>
+<th align="right">LE.Stm</th>
+<th align="right">LEW.Crl</th>
+<th align="right">LEW.SsNHsd</th>
+<th align="right">SHR</th>
+<th align="right">SHRSP</th>
+<th align="right">SR</th>
+<th align="right">SS</th>
+<th align="right">WKY</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">PRN6.5G0000002</td>
+<td align="right">2.471885</td>
+<td align="right">2.843376</td>
+<td align="right">2.988058</td>
+<td align="right">2.008068</td>
+<td align="right">2.803343</td>
+<td align="right">3.226419</td>
+<td align="right">2.690378</td>
+<td align="right">2.929471</td>
+<td align="right">2.899790</td>
+<td align="right">2.443884</td>
+<td align="right">2.979799</td>
+<td align="right">3.013484</td>
+<td align="right">3.344496</td>
+<td align="right">3.232358</td>
+<td align="right">3.859046</td>
+<td align="right">3.642551</td>
+<td align="right">3.162583</td>
+<td align="right">2.990749</td>
+<td align="right">3.571474</td>
+<td align="right">3.218356</td>
+<td align="right">2.849306</td>
+<td align="right">3.283459</td>
+<td align="right">3.291732</td>
+<td align="right">2.895224</td>
+<td align="right">2.301590</td>
+<td align="right">2.735003</td>
+<td align="right">3.224193</td>
+<td align="right">3.818431</td>
+<td align="right">2.636773</td>
+<td align="right">2.314870</td>
+<td align="right">3.309808</td>
+<td align="right">2.427989</td>
+<td align="right">2.829324</td>
+<td align="right">4.047287</td>
+<td align="right">3.250463</td>
+<td align="right">2.388294</td>
+<td align="right">2.550821</td>
+<td align="right">2.800644</td>
+<td align="right">2.594503</td>
+<td align="right">2.753139</td>
+<td align="right">2.611620</td>
+<td align="right">3.154226</td>
+<td align="right">3.356459</td>
+<td align="right">2.359043</td>
+<td align="right">2.032995</td>
+</tr>
+<tr class="even">
+<td align="left">PRN6.5G0000018</td>
+<td align="right">7.972751</td>
+<td align="right">7.988188</td>
+<td align="right">8.327635</td>
+<td align="right">7.483179</td>
+<td align="right">8.308570</td>
+<td align="right">8.493277</td>
+<td align="right">7.656435</td>
+<td align="right">8.034155</td>
+<td align="right">7.419229</td>
+<td align="right">7.744099</td>
+<td align="right">7.772140</td>
+<td align="right">7.879737</td>
+<td align="right">8.892710</td>
+<td align="right">8.674106</td>
+<td align="right">8.926560</td>
+<td align="right">8.524224</td>
+<td align="right">9.830253</td>
+<td align="right">7.921848</td>
+<td align="right">7.782879</td>
+<td align="right">8.230908</td>
+<td align="right">7.810042</td>
+<td align="right">7.817220</td>
+<td align="right">7.938246</td>
+<td align="right">7.742655</td>
+<td align="right">7.662234</td>
+<td align="right">7.349877</td>
+<td align="right">7.665480</td>
+<td align="right">8.443167</td>
+<td align="right">7.403185</td>
+<td align="right">7.390368</td>
+<td align="right">8.295641</td>
+<td align="right">7.716124</td>
+<td align="right">7.821002</td>
+<td align="right">8.286780</td>
+<td align="right">7.841284</td>
+<td align="right">8.102923</td>
+<td align="right">7.772143</td>
+<td align="right">8.351444</td>
+<td align="right">8.188147</td>
+<td align="right">8.261466</td>
+<td align="right">7.580521</td>
+<td align="right">8.472662</td>
+<td align="right">8.664102</td>
+<td align="right">9.273093</td>
+<td align="right">7.726402</td>
+</tr>
+<tr class="odd">
+<td align="left">PRN6.5G0000023</td>
+<td align="right">3.635240</td>
+<td align="right">3.919247</td>
+<td align="right">4.123028</td>
+<td align="right">3.633602</td>
+<td align="right">4.865721</td>
+<td align="right">4.749075</td>
+<td align="right">4.191927</td>
+<td align="right">3.862219</td>
+<td align="right">3.688691</td>
+<td align="right">4.015154</td>
+<td align="right">3.978780</td>
+<td align="right">4.069461</td>
+<td align="right">4.312069</td>
+<td align="right">4.604477</td>
+<td align="right">4.507873</td>
+<td align="right">3.462370</td>
+<td align="right">4.377501</td>
+<td align="right">4.080252</td>
+<td align="right">4.425630</td>
+<td align="right">4.695526</td>
+<td align="right">4.251516</td>
+<td align="right">4.135177</td>
+<td align="right">4.516254</td>
+<td align="right">3.947551</td>
+<td align="right">4.046057</td>
+<td align="right">3.536359</td>
+<td align="right">4.247595</td>
+<td align="right">4.381584</td>
+<td align="right">3.699361</td>
+<td align="right">3.071000</td>
+<td align="right">4.919601</td>
+<td align="right">4.383471</td>
+<td align="right">4.343141</td>
+<td align="right">4.698016</td>
+<td align="right">4.225777</td>
+<td align="right">4.241549</td>
+<td align="right">4.812240</td>
+<td align="right">4.069986</td>
+<td align="right">4.749160</td>
+<td align="right">3.400256</td>
+<td align="right">3.408126</td>
+<td align="right">3.401887</td>
+<td align="right">3.625541</td>
+<td align="right">5.008848</td>
+<td align="right">3.008453</td>
+</tr>
+</tbody>
+</table>
+<p>…</p>
+</div>
+</div>
+<div id="getdatasetgtf" class="section level4">
+<h4>getDatasetGTF()</h4>
+<p>getDatasetGTF( URL, splitIDColumn=FALSE, select=“ALL” ) - can be used
+for GTF files instead of getDatasetResultFile() splitting the ID(9th)
+column or filtering for just exons or transcripts is desired.</p>
+<p>The options can be used seperately or together.</p>
+<ul>
+<li><p>splitIDColumn - indicates if the 9th column of additional
+annotations should be split into multiple columns. Currently this is
+limited to 2 columns Gene and Transcript.</p></li>
+<li><p>select - can be used to filter rows to contain only: transcripts
+(select=“TRANSCRIPTS”) or exons (select=“EXONS”)</p></li>
+</ul>
 </div>
 <div id="getdatasetsamples" class="section level4">
 <h4>getDatasetSamples()</h4>
-<p>getDatasetSamples(datasetID,help) - creates a table of sample details
-from the metadata of the dataset.</p>
+<p>getDatasetSamples( datasetID, help ) - creates a table of sample
+details from the metadata of the dataset.</p>
 </div>
 <div id="getdatasetpipelinedetails" class="section level4">
 <h4>getDatasetPipelineDetails()</h4>
-<p>getDatasetPipelineDetails(datasetID,help) - creates a table of
+<p>getDatasetPipelineDetails( datasetID, help ) - creates a table of
 pipelines used to process the data in the results. Each pipeline has
 steps associated with it that can be viewed that can include the
 programs used with versions, URL for the program, and even the command
@@ -421,35 +908,602 @@ line used if provided.</p>
 </div>
 <div id="getdatasetprotocoldetails" class="section level4">
 <h4>getDatasetProtocolDetails()</h4>
-<p>getDatasetProtocolDetails(datasetID,help) - creates a table of
+<p>getDatasetProtocolDetails( datasetID, help ) - creates a table of
 protocols used in the library preparation. Beyond title and description
 details are provided as a download. When available the URL will be
 provided to download the protocol used. Further detail not yet provided
 can include notes on individual samples.</p>
+<hr />
 </div>
 </div>
 <div id="markers" class="section level3">
 <h3>Markers</h3>
 <div id="getmarkersets" class="section level4">
 <h4>getMarkerSets()</h4>
-<p>getMarkerSets(genomeVer=““,organism=”“) - returns a dataFrame of
+<p>getMarkerSets( genomeVer=““,organism=”” ) - returns a dataFrame of
 MarkerSets available.If a genomeVer or organism is specified then it
 will return matching datasets.</p>
+<div id="example-4" class="section level5">
+<h5>Example</h5>
+<p><code>phenoGenMarkerSets=getMarkerSets()</code></p>
+<table style="width:100%;">
+<colgroup>
+<col width="9%" />
+<col width="8%" />
+<col width="4%" />
+<col width="7%" />
+<col width="4%" />
+<col width="61%" />
+<col width="3%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">download_group_id</th>
+<th align="left">display_name</th>
+<th align="left">organism</th>
+<th align="left">genome_version</th>
+<th align="left">panel</th>
+<th align="left">description</th>
+<th align="left">type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">HRDPv6 Markers</td>
+<td align="left">Rat</td>
+<td align="left">rn7.2</td>
+<td align="left">HRDP</td>
+<td align="left">HRDP v6 markers from strain sequencing variant
+calls</td>
+<td align="left">Marker</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">HRDPv4 Markers</td>
+<td align="left">Rat</td>
+<td align="left">rn6</td>
+<td align="left">HRDP</td>
+<td align="left">STAR Consortium Genotype Arrays ( <a href="http://oct2012.archive.ensembl.org/Rattus_norvegicus/Info/Content?file=star.html" class="uri">http://oct2012.archive.ensembl.org/Rattus_norvegicus/Info/Content?file=star.html</a>
+)</td>
+<td align="left">Marker</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">HXB/BXH Markers</td>
+<td align="left">Rat</td>
+<td align="left">rn5</td>
+<td align="left">HXB/BXH</td>
+<td align="left">STAR Consortium Genotype Arrays ( <a href="http://oct2012.archive.ensembl.org/Rattus_norvegicus/Info/Content?file=star.html" class="uri">http://oct2012.archive.ensembl.org/Rattus_norvegicus/Info/Content?file=star.html</a>
+)</td>
+<td align="left">Marker</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">BXD Markers</td>
+<td align="left">Mouse</td>
+<td align="left">mm9</td>
+<td align="left">BXD</td>
+<td align="left">Wellcome-CTC Mouse Strain SNP Genotype Set</td>
+<td align="left">Marker</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">LXS Markers</td>
+<td align="left">Mouse</td>
+<td align="left">mm10</td>
+<td align="left">LXS</td>
+<td align="left">Affymetrix Mouse Diversity SNP Array</td>
+<td align="left">Marker</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="getmarkerfiles" class="section level4">
 <h4>getMarkerFiles()</h4>
-<p>getMarkerFiles(markerSetID, help)- returns a dataFram with a list of
-marker set files available.</p>
+<p>getMarkerFiles( markerSetID, help )- returns a dataFram with a list
+of marker set files available.</p>
+<div id="example-5" class="section level5">
+<h5>Example</h5>
+<p><code>phenoGenMarkerFiles=getMarkerFiles(markerSetID=1)</code></p>
+<table>
+<colgroup>
+<col width="7%" />
+<col width="5%" />
+<col width="10%" />
+<col width="16%" />
+<col width="13%" />
+<col width="46%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="right">download_file_id</th>
+<th align="right">marker_set_id</th>
+<th align="left">description</th>
+<th align="left">filename</th>
+<th align="left">checksum</th>
+<th align="left">URL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">HRDPv6 Marker Genotypes</td>
+<td align="left">HRDP.v6.rn7.genotypes.2023-01-17.txt.gz</td>
+<td align="left">110da4cb07901b7e8fcec0778d89a141</td>
+<td align="left"><a href="https://phenogen.org/web/sysbio/downloadLink.jsp?url=/downloads/Markers/HRDP.v6.rn7.genotypes.2023-01-17.txt.gz" class="uri">https://phenogen.org/web/sysbio/downloadLink.jsp?url=/downloads/Markers/HRDP.v6.rn7.genotypes.2023-01-17.txt.gz</a></td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">1</td>
+<td align="left">HRDPv6 Marker Positions</td>
+<td align="left">HRDP.v6.rn7.positions.2023-01-17.txt.gz</td>
+<td align="left">22e76bcdb6a8b4aa6cf75ea73f969bd1</td>
+<td align="left"><a href="https://phenogen.org/web/sysbio/downloadLink.jsp?url=/downloads/Markers/HRDP.v6.rn7.positions.2023-01-17.txt.gz" class="uri">https://phenogen.org/web/sysbio/downloadLink.jsp?url=/downloads/Markers/HRDP.v6.rn7.positions.2023-01-17.txt.gz</a></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="getmarkerfile" class="section level4">
 <h4>getMarkerFile()</h4>
-<p>getMarkerFile(URL,help) - returns a dataFrame with the marker set
+<p>getMarkerFile( URL, help ) - returns a dataFrame with the marker set
 file contents.</p>
+<div id="example-6" class="section level5">
+<h5>Example</h5>
+<p><code>phenogenMarkerData=getMarkerFile(URL=&quot;https://phenogen.org/web/sysbio/downloadLink.jsp?url=/downloads/Markers/HRDP.v6.rn7.genotypes.2023-01-17.txt.gz&quot;)</code></p>
+<table style="width:100%;">
+<colgroup>
+<col width="0%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="0%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="0%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="0%" />
+<col width="0%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="0%" />
+<col width="1%" />
+<col width="0%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"></th>
+<th align="right">BN.Lx_Cub_mRatNor1</th>
+<th align="right">BXH10_mRatNor1</th>
+<th align="right">BXH11_mRatNor1</th>
+<th align="right">BXH12_mRatNor1</th>
+<th align="right">BXH13_mRatNor1</th>
+<th align="right">BXH2_mRatNor1</th>
+<th align="right">BXH3_mRatNor1</th>
+<th align="right">BXH5_mRatNor1</th>
+<th align="right">BXH6_mRatNor1</th>
+<th align="right">BXH8_mRatNor1</th>
+<th align="right">BXH9_mRatNor1</th>
+<th align="right">HXB1_mRatNor1</th>
+<th align="right">HXB10_mRatNor1</th>
+<th align="right">HXB13_mRatNor1</th>
+<th align="right">HXB15_mRatNor1</th>
+<th align="right">HXB17_mRatNor1</th>
+<th align="right">HXB18_mRatNor1</th>
+<th align="right">HXB2_mRatNor1</th>
+<th align="right">HXB20_mRatNor1</th>
+<th align="right">HXB21_mRatNor1</th>
+<th align="right">HXB22_mRatNor1</th>
+<th align="right">HXB23_mRatNor1</th>
+<th align="right">HXB24_mRatNor1</th>
+<th align="right">HXB25_mRatNor1</th>
+<th align="right">HXB27_mRatNor1</th>
+<th align="right">HXB29_mRatNor1</th>
+<th align="right">HXB3_mRatNor1</th>
+<th align="right">HXB31_mRatNor1</th>
+<th align="right">HXB4_mRatNor1</th>
+<th align="right">HXB5_mRatNor1</th>
+<th align="right">HXB7_mRatNor1</th>
+<th align="right">SHR_OlaIpcv_mRatNor1</th>
+<th align="right">ACI_EurMcwi_2019NOV</th>
+<th align="right">BN_NHsdMcwi_2019</th>
+<th align="right">BUF_N_2020</th>
+<th align="right">DA_OlaHsd_2019NOV</th>
+<th align="right">F344_NCrl_2019NOV</th>
+<th align="right">F344_NHsd_2021</th>
+<th align="right">F344_Stm_2019</th>
+<th align="right">FHH_EurMcwi_2019NOV</th>
+<th align="right">FXLE12_Stm_2019NOV</th>
+<th align="right">FXLE13_Stm_2019NOV</th>
+<th align="right">FXLE14_Stm_2019NOV</th>
+<th align="right">FXLE15_Stm_2019NOV</th>
+<th align="right">FXLE16_Stm_2019</th>
+<th align="right">FXLE17_Stm_2019NOV</th>
+<th align="right">FXLE18_Stm_2019</th>
+<th align="right">FXLE20_Stm_2019NOV</th>
+<th align="right">GK_FarMcwi_2019NOV</th>
+<th align="right">LE_Stm_2019</th>
+<th align="right">LEW_Crl_2019</th>
+<th align="right">LXF10A_StmMcwi_2020</th>
+<th align="right">LEXF11_Stm_2020</th>
+<th align="right">LEXF1A_Stm_2019</th>
+<th align="right">LEXF1C_Stm_2019</th>
+<th align="right">LEXF2B_Stm_2019</th>
+<th align="right">LEXF3_Stm_2020</th>
+<th align="right">LEXF4_Stm_2020</th>
+<th align="right">LEXF5_Stm_2019NOV</th>
+<th align="right">LEXF6B_Stm_2019NOV</th>
+<th align="right">LEXF6B_Stm_2021_A</th>
+<th align="right">LEXF6B_Stm_2021_BH</th>
+<th align="right">LEXF6B_Stm_2021_FH</th>
+<th align="right">LEXF7A_Stm_2019NOV</th>
+<th align="right">LEXF8A_Stm_2021</th>
+<th align="right">LH_MavRrrcAek_2020</th>
+<th align="right">LL_MavRrrcAek_2020</th>
+<th align="right">LN_MavRrrcAek_2020</th>
+<th align="right">M520_N_2020</th>
+<th align="right">MR_N_2020</th>
+<th align="right">MWF_Hsd_2019NOV</th>
+<th align="right">PVG_Seac_2019</th>
+<th align="right">RCS_LavRrrc_2021</th>
+<th align="right">SHR_NCrl_2021</th>
+<th align="right">SHRSP_A3NCrl_2019NOV</th>
+<th align="right">SR_JrHsd_2020</th>
+<th align="right">SS_JrHsd_2021</th>
+<th align="right">WAG_RijCrl_2020</th>
+<th align="right">WKY_N_2020</th>
+<th align="right">WKY_NCrl_2019</th>
+<th align="right">WN_N_2020</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">chr1_16211</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">chr1_17226</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">chr1_17294</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</div>
+</div>
+<div id="utility-functions" class="section level3">
+<h3>Utility Functions</h3>
+<div id="filtergtf" class="section level4">
+<h4>filterGTF()</h4>
+<p>filterGTF( gtfDataFrame, splitIDColumn=FALSE, select=“ALL” ) - can be
+used on the dataFrame returned from getting a GTF. The options can be
+used seperately or together. splitIDColumn - indicates if the 9th column
+of additional annotations should be split into multiple columns.
+Currently this is limited to 2 columns Gene and Transcript. select - can
+be used to filter rows to contain only: transcripts
+(select=“TRANSCRIPTS”) or exons (select=“EXONS”)</p>
+<hr />
 </div>
 </div>
 </div>
 <div id="example-usage" class="section level2">
 <h2>Example Usage</h2>
+<p><a href="#Load-a-Phenogen-Data-Set">Load a Data Set</a></p>
+<p><a href="#Load-a-Phenogen-Marker-Set">Load a Marker Set</a></p>
+<hr />
 <div id="load-a-phenogen-data-set" class="section level3">
 <h3>Load a Phenogen Data Set</h3>
 <div id="get-a-list-of-datasets-available-on-phenogen" class="section level4">
@@ -1389,470 +2443,13 @@ View(BrainGeneReconstruction)</code></pre>
 </tr>
 </tbody>
 </table>
+<hr />
 </div>
 </div>
 <div id="load-a-phenogen-marker-set" class="section level3">
 <h3>Load a Phenogen Marker Set</h3>
-</div>
-</div>
-<div id="examples" class="section level2">
-<h2>Examples</h2>
-<p><code>phenoGenDatasets=getDatasets()</code></p>
-<table style="width:100%;">
-<colgroup>
-<col width="6%" />
-<col width="6%" />
-<col width="9%" />
-<col width="29%" />
-<col width="13%" />
-<col width="8%" />
-<col width="18%" />
-<col width="6%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="right">datasetID</th>
-<th align="left">organism</th>
-<th align="left">panel</th>
-<th align="left">description</th>
-<th align="left">created</th>
-<th align="left">tissue</th>
-<th align="left">SeqType</th>
-<th align="left">GenomeVer</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">3</td>
-<td align="left">Mm</td>
-<td align="left">ILS/ISS</td>
-<td align="left">Whole Brain from ILS/ISS Parental Strains</td>
-<td align="left">2017-10-26 00:00:00</td>
-<td align="left">Whole Brain</td>
-<td align="left">smallRNA</td>
-<td align="left">mm10</td>
-</tr>
-<tr class="even">
-<td align="right">4</td>
-<td align="left">Mm</td>
-<td align="left">ILS/ISS Panel</td>
-<td align="left">Whole Brain from ILS/ISS RI Panel</td>
-<td align="left">2017-10-30 00:00:00</td>
-<td align="left">Whole Brain</td>
-<td align="left">smallRNA</td>
-<td align="left">mm10</td>
-</tr>
-<tr class="odd">
-<td align="right">5</td>
-<td align="left">Rn</td>
-<td align="left">HRDP</td>
-<td align="left">HRDP v5 Whole Brain 45 Strains</td>
-<td align="left">2020-06-20 00:00:00</td>
-<td align="left">Whole Brain</td>
-<td align="left">ribosome depleted totalRNA</td>
-<td align="left">rn6</td>
-</tr>
-<tr class="even">
-<td align="right">6</td>
-<td align="left">Rn</td>
-<td align="left">HRDP</td>
-<td align="left">HRDP v5 Liver 45 Strains</td>
-<td align="left">2020-06-20 00:00:00</td>
-<td align="left">Liver</td>
-<td align="left">ribosome depleted totalRNA</td>
-<td align="left">rn6</td>
-</tr>
-<tr class="odd">
-<td align="right">7</td>
-<td align="left">Rn</td>
-<td align="left">HRDP</td>
-<td align="left">HRDP v5 Kidney 28 Strains</td>
-<td align="left">2020-06-20 00:00:00</td>
-<td align="left">Kidney</td>
-<td align="left">ribosome depleted totalRNA</td>
-<td align="left">rn6</td>
-</tr>
-<tr class="even">
-<td align="right">8</td>
-<td align="left">Rn</td>
-<td align="left">HRDP</td>
-<td align="left">HRDP v5 Heart BNLx/SHR</td>
-<td align="left">2021-08-07 00:00:00</td>
-<td align="left">Heart</td>
-<td align="left">ribosome depleted totalRNA</td>
-<td align="left">rn6</td>
-</tr>
-</tbody>
-</table>
-<p><code>phenoGenDataset=getDatasetResults(datasetID=6)</code></p>
-<table>
-<colgroup>
-<col width="9%" />
-<col width="40%" />
-<col width="15%" />
-<col width="13%" />
-<col width="21%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="right">resultID</th>
-<th align="left">type</th>
-<th align="left">genomeVersion</th>
-<th align="left">hrdpVersion</th>
-<th align="left">dateCreated</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">5</td>
-<td align="left">Quantification-RSEM - Ensembl</td>
-<td align="left">rn6</td>
-<td align="left">5</td>
-<td align="left">2020-06-20 00:00:00</td>
-</tr>
-<tr class="even">
-<td align="right">6</td>
-<td align="left">Transcriptome Reconstruction</td>
-<td align="left">rn6</td>
-<td align="left">5</td>
-<td align="left">2020-06-20 00:00:00</td>
-</tr>
-<tr class="odd">
-<td align="right">7</td>
-<td align="left">Quantification-RSEM - Reconstruction</td>
-<td align="left">rn6</td>
-<td align="left">5</td>
-<td align="left">2020-06-20 00:00:00</td>
-</tr>
-</tbody>
-</table>
-<p><code>phenoGenDatasetFiles=getDatasetResultFiles(datasetID=6,resultID=7)</code></p>
-<table>
-<colgroup>
-<col width="2%" />
-<col width="6%" />
-<col width="23%" />
-<col width="37%" />
-<col width="10%" />
-<col width="4%" />
-<col width="3%" />
-<col width="4%" />
-<col width="3%" />
-<col width="3%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="right">fileID</th>
-<th align="left">uploadDate</th>
-<th align="left">fileName</th>
-<th align="left">URL</th>
-<th align="left">checksum</th>
-<th align="left">genomeVersion</th>
-<th align="left">description</th>
-<th align="left">annotation</th>
-<th align="left">level</th>
-<th align="left">strainMeans</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="right">15</td>
-<td align="left">2020-06-20 00:00:00</td>
-<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz</td>
-<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz</a></td>
-<td align="left">339492503250921c1e12f062fd538598</td>
-<td align="left">rn6</td>
-<td align="left">NA</td>
-<td align="left">Reconstruction</td>
-<td align="left">Gene</td>
-<td align="left">TRUE</td>
-</tr>
-<tr class="even">
-<td align="right">16</td>
-<td align="left">2020-06-20 00:00:00</td>
-<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.strainMeans.txt.gz</td>
-<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.strainMeans.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.strainMeans.txt.gz</a></td>
-<td align="left">8f2fa86774aed5602432ba20a898f116</td>
-<td align="left">rn6</td>
-<td align="left">NA</td>
-<td align="left">Reconstruction</td>
-<td align="left">Transcript</td>
-<td align="left">TRUE</td>
-</tr>
-<tr class="odd">
-<td align="right">19</td>
-<td align="left">2020-06-20 00:00:00</td>
-<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.txt.gz</td>
-<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.txt.gz</a></td>
-<td align="left">e7f4a4ef7d3aa94db0323abcbf7bd1f1</td>
-<td align="left">rn6</td>
-<td align="left">NA</td>
-<td align="left">Reconstruction</td>
-<td align="left">Gene</td>
-<td align="left">FALSE</td>
-</tr>
-<tr class="even">
-<td align="right">20</td>
-<td align="left">2020-06-20 00:00:00</td>
-<td align="left">PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.txt.gz</td>
-<td align="left"><a href="https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.txt.gz" class="uri">https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.transcript.reconstruction.txt.gz</a></td>
-<td align="left">fad306dc42914bd071556b65f45f8eae</td>
-<td align="left">rn6</td>
-<td align="left">NA</td>
-<td align="left">Reconstruction</td>
-<td align="left">Transcript</td>
-<td align="left">FALSE</td>
-</tr>
-</tbody>
-</table>
-<p><code>phenoGenData=getDatasetResultFile(URL=&quot;https://phenogen.org/downloads/RNASeq/RSEM/PhenoGen.HRDP.v5.totalRNA.Liver.gene.reconstruction.strainMeans.txt.gz&quot;)</code></p>
-<table style="width:100%;">
-<colgroup>
-<col width="3%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-<col width="2%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left"></th>
-<th align="right">ACI.SegHsd</th>
-<th align="right">BNLx</th>
-<th align="right">BXH10</th>
-<th align="right">BXH11</th>
-<th align="right">BXH12</th>
-<th align="right">BXH13</th>
-<th align="right">BXH2</th>
-<th align="right">BXH3</th>
-<th align="right">BXH5</th>
-<th align="right">BXH6</th>
-<th align="right">BXH8</th>
-<th align="right">BXH9</th>
-<th align="right">Cop.CrCrl</th>
-<th align="right">DA</th>
-<th align="right">F344.NCl</th>
-<th align="right">F344.NHsd</th>
-<th align="right">F344.Stm</th>
-<th align="right">HXB1</th>
-<th align="right">HXB10</th>
-<th align="right">HXB13</th>
-<th align="right">HXB15</th>
-<th align="right">HXB17</th>
-<th align="right">HXB18</th>
-<th align="right">HXB2</th>
-<th align="right">HXB20</th>
-<th align="right">HXB21</th>
-<th align="right">HXB22</th>
-<th align="right">HXB23</th>
-<th align="right">HXB24</th>
-<th align="right">HXB25</th>
-<th align="right">HXB27</th>
-<th align="right">HXB29</th>
-<th align="right">HXB3</th>
-<th align="right">HXB31</th>
-<th align="right">HXB4</th>
-<th align="right">HXB5</th>
-<th align="right">HXB7</th>
-<th align="right">LE.Stm</th>
-<th align="right">LEW.Crl</th>
-<th align="right">LEW.SsNHsd</th>
-<th align="right">SHR</th>
-<th align="right">SHRSP</th>
-<th align="right">SR</th>
-<th align="right">SS</th>
-<th align="right">WKY</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">PRN6.5G0000002</td>
-<td align="right">2.471885</td>
-<td align="right">2.843376</td>
-<td align="right">2.988058</td>
-<td align="right">2.008068</td>
-<td align="right">2.803343</td>
-<td align="right">3.226419</td>
-<td align="right">2.690378</td>
-<td align="right">2.929471</td>
-<td align="right">2.899790</td>
-<td align="right">2.443884</td>
-<td align="right">2.979799</td>
-<td align="right">3.013484</td>
-<td align="right">3.344496</td>
-<td align="right">3.232358</td>
-<td align="right">3.859046</td>
-<td align="right">3.642551</td>
-<td align="right">3.162583</td>
-<td align="right">2.990749</td>
-<td align="right">3.571474</td>
-<td align="right">3.218356</td>
-<td align="right">2.849306</td>
-<td align="right">3.283459</td>
-<td align="right">3.291732</td>
-<td align="right">2.895224</td>
-<td align="right">2.301590</td>
-<td align="right">2.735003</td>
-<td align="right">3.224193</td>
-<td align="right">3.818431</td>
-<td align="right">2.636773</td>
-<td align="right">2.314870</td>
-<td align="right">3.309808</td>
-<td align="right">2.427989</td>
-<td align="right">2.829324</td>
-<td align="right">4.047287</td>
-<td align="right">3.250463</td>
-<td align="right">2.388294</td>
-<td align="right">2.550821</td>
-<td align="right">2.800644</td>
-<td align="right">2.594503</td>
-<td align="right">2.753139</td>
-<td align="right">2.611620</td>
-<td align="right">3.154226</td>
-<td align="right">3.356459</td>
-<td align="right">2.359043</td>
-<td align="right">2.032995</td>
-</tr>
-<tr class="even">
-<td align="left">PRN6.5G0000018</td>
-<td align="right">7.972751</td>
-<td align="right">7.988188</td>
-<td align="right">8.327635</td>
-<td align="right">7.483179</td>
-<td align="right">8.308570</td>
-<td align="right">8.493277</td>
-<td align="right">7.656435</td>
-<td align="right">8.034155</td>
-<td align="right">7.419229</td>
-<td align="right">7.744099</td>
-<td align="right">7.772140</td>
-<td align="right">7.879737</td>
-<td align="right">8.892710</td>
-<td align="right">8.674106</td>
-<td align="right">8.926560</td>
-<td align="right">8.524224</td>
-<td align="right">9.830253</td>
-<td align="right">7.921848</td>
-<td align="right">7.782879</td>
-<td align="right">8.230908</td>
-<td align="right">7.810042</td>
-<td align="right">7.817220</td>
-<td align="right">7.938246</td>
-<td align="right">7.742655</td>
-<td align="right">7.662234</td>
-<td align="right">7.349877</td>
-<td align="right">7.665480</td>
-<td align="right">8.443167</td>
-<td align="right">7.403185</td>
-<td align="right">7.390368</td>
-<td align="right">8.295641</td>
-<td align="right">7.716124</td>
-<td align="right">7.821002</td>
-<td align="right">8.286780</td>
-<td align="right">7.841284</td>
-<td align="right">8.102923</td>
-<td align="right">7.772143</td>
-<td align="right">8.351444</td>
-<td align="right">8.188147</td>
-<td align="right">8.261466</td>
-<td align="right">7.580521</td>
-<td align="right">8.472662</td>
-<td align="right">8.664102</td>
-<td align="right">9.273093</td>
-<td align="right">7.726402</td>
-</tr>
-<tr class="odd">
-<td align="left">PRN6.5G0000023</td>
-<td align="right">3.635240</td>
-<td align="right">3.919247</td>
-<td align="right">4.123028</td>
-<td align="right">3.633602</td>
-<td align="right">4.865721</td>
-<td align="right">4.749075</td>
-<td align="right">4.191927</td>
-<td align="right">3.862219</td>
-<td align="right">3.688691</td>
-<td align="right">4.015154</td>
-<td align="right">3.978780</td>
-<td align="right">4.069461</td>
-<td align="right">4.312069</td>
-<td align="right">4.604477</td>
-<td align="right">4.507873</td>
-<td align="right">3.462370</td>
-<td align="right">4.377501</td>
-<td align="right">4.080252</td>
-<td align="right">4.425630</td>
-<td align="right">4.695526</td>
-<td align="right">4.251516</td>
-<td align="right">4.135177</td>
-<td align="right">4.516254</td>
-<td align="right">3.947551</td>
-<td align="right">4.046057</td>
-<td align="right">3.536359</td>
-<td align="right">4.247595</td>
-<td align="right">4.381584</td>
-<td align="right">3.699361</td>
-<td align="right">3.071000</td>
-<td align="right">4.919601</td>
-<td align="right">4.383471</td>
-<td align="right">4.343141</td>
-<td align="right">4.698016</td>
-<td align="right">4.225777</td>
-<td align="right">4.241549</td>
-<td align="right">4.812240</td>
-<td align="right">4.069986</td>
-<td align="right">4.749160</td>
-<td align="right">3.400256</td>
-<td align="right">3.408126</td>
-<td align="right">3.401887</td>
-<td align="right">3.625541</td>
-<td align="right">5.008848</td>
-<td align="right">3.008453</td>
-</tr>
-</tbody>
-</table>
-<p>…</p>
+<div id="get-a-list-of-marker-sets-available." class="section level4">
+<h4>1. Get a list of Marker Sets available.</h4>
 <p><code>phenoGenMarkerSets=getMarkerSets()</code></p>
 <table style="width:100%;">
 <colgroup>
@@ -1866,7 +2463,7 @@ View(BrainGeneReconstruction)</code></pre>
 </colgroup>
 <thead>
 <tr class="header">
-<th align="right">download_group_id</th>
+<th align="right">marker_set_id</th>
 <th align="left">display_name</th>
 <th align="left">organism</th>
 <th align="left">genome_version</th>
@@ -1926,6 +2523,10 @@ calls</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="get-a-list-of-marker-files-linked-to-the-selected-marker-set-by-providing-the-marker_set_id-from-step-1." class="section level4">
+<h4>2. Get a list of marker files linked to the selected marker set by
+providing the marker_set_id from step 1.</h4>
 <p><code>phenoGenMarkerFiles=getMarkerFiles(markerSetID=1)</code></p>
 <table>
 <colgroup>
@@ -1965,6 +2566,10 @@ calls</td>
 </tr>
 </tbody>
 </table>
+</div>
+<div id="get-a-dataframe-with-the-data-from-a-selected-file.-provide-the-url-from-step-2-to-specify-the-file-to-load." class="section level4">
+<h4>3. Get a dataframe with the data from a selected file. Provide the
+URL from step 2 to specify the file to load.</h4>
 <p><code>phenogenMarkerData=getMarkerFile(URL=&quot;https://phenogen.org/web/sysbio/downloadLink.jsp?url=/downloads/Markers/HRDP.v6.rn7.genotypes.2023-01-17.txt.gz&quot;)</code></p>
 <table style="width:100%;">
 <colgroup>
@@ -2392,6 +2997,9 @@ calls</td>
 </tr>
 </tbody>
 </table>
+<hr />
+</div>
+</div>
 </div>
 <div id="phenogen-rest-api" class="section level2">
 <h2>PhenoGen REST API</h2>
