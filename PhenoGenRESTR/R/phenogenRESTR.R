@@ -254,43 +254,6 @@ getDatasetGTF<-function(URL="",splitIDColumn=FALSE,select="ALL"){
   return(dataf)
 }
 
-
-
-filterGTF <- function(gtfDataFrame,splitIDColumn=FALSE,select="ALL"){
-  newDataf <- gtfDataFrame
-  if(splitIDColumn){
-    #temporary Only deal with first 2 IDs and assume they are in order GENE; Transcript;
-    newDataf <- newDataf %>% separate_wider_delim(cols="V9" , delim = ";",names=c("Gene","Transcript"), too_many = "drop")
-    newDataf <- newDataf %>% mutate(across('Gene', \(x) str_replace(x,'gene_id ', '')))
-    newDataf <- newDataf %>% mutate(across('Transcript', \(x) str_replace(x,'transcript_id ', '')))
-    #working on new code to handle any number of IDs and handle being out of order
-    #newDataf <- newDataf %>% separate_wider_delim(cols="V9" , delim = ";",names_sep = "_", names_repair = nameFunct)
-    #newDataf %>% mutate(across('V9_2', \(x) str_replace(x,'^ | $', '')))
-    #colList <- unique(newDataf %>% separate_wider_delim(cols="V9_*" , delim = " ", names="ID,VALUE")$ID)
-
-  }
-  if(select!="ALL"){
-    if(select=="TRANSCRIPTS"){
-      newDataf <- newDataf[grepl("transcript", newDataf$Feature),]
-    }else if(select=="EXONS"){
-      newDataf <- newDataf[grepl("exon", newDataf$Feature),]
-    }else{
-      warning("WARNING: select = ALL,TRANSCRIPTS,EXONS is supported.  No Filtering was performed.")
-    }
-  }
-  return(newDataf)
-}
-
-
-nameFunct <- function(name){
-  newName=name
-
-  return(newName)
-}
-
-
-
-
 getMarkerSets<-function(genomeVer="",organism="",help=FALSE){
   url=paste(phenogenURL,"downloads/markerSets",sep="")
   dataf <- NULL
@@ -379,10 +342,108 @@ getMarkerFile<-function(URL=""){
 }
 
 
+getDatasetExpression<-function(annotation="",level="",tissue="",version="",genomeVersion="",strainMeans=FALSE,help=FALSE){
+  url=paste(phenogenURL,"downloads/datasetExpression",sep="")
+  return (internalExpression (url,annotation,level,tissue,version,genomeVersion,strainMeans,help))
+}
+
+getDatasetExpressionTPM<-function(annotation="",level="",tissue="",version="",genomeVersion="",strainMeans=FALSE,help=FALSE){
+  url=paste(phenogenURL,"downloads/datasetExpressionTPM",sep="")
+  return (internalExpression (url,annotation,level,tissue,version,genomeVersion,strainMeans,help))
+}
+
+internalExpression <- function(url="",annotation="",level="",tissue="",version="",genomeVersion="",strainMeans=FALSE,help=FALSE){
+  dataf <- NULL
+  if(help){
+    url=paste(url,"?help=Y",sep="")
+    ret=getURL(url)
+    dataf=fromJSON(fromJSON(ret)$body)
+  }else{
+
+    url=paste(url,"?annotation=",annotation,"&analysisLevel=",level,"&tissue=",tissue,sep="")
+    if(genomeVersion!=""){
+      url=paste(url,"&genomeVersion=",genomeVersion,sep="")
+    }
+    if(version!=""){
+      url=paste(url,"&version=",version,sep="")
+    }
+    tmpStr="0"
+    if(strainMeans){
+      tmpStr="1"
+    }
+    url=paste(url,"&strainMeans=",tmpStr,sep="")
+    print(url)
+    ret=getURL(url)
+    urlData=""
+    tmp=fromJSON(ret)$body
+    if( ! is.null(attr(tmp,"message")) & tmp$message !=""){
+      print(tmp$message)
+    }else{
+      tmpdataf=tmp$data
+      urlData=tmpdataf$URL
+      print(paste("Genome Version:",tmpdataf$genome_version,sep=" "))
+      print(paste("Level:",tmpdataf$level,sep=" "))
+      print(paste("Annotation:",tmpdataf$annotation,sep=" "))
+      print(paste("URL:",urlData,sep=" "))
+    }
+    if(urlData!=""){
+      if(endsWith(urlData,"gz")){
+        con = gzcon(url(urlData))
+        txt = readLines(con)
+        curSep=" "
+        if(endsWith(urlData,".csv.gz")){
+          curSep=","
+        }
+        txtCon=textConnection(txt)
+        dataf = read.table(txtCon,sep=curSep,header=TRUE)
+        close(txtCon)
+      }else{
+        con = url(urlData)
+        txt = readLines(con)
+        curSep=" "
+        if(endsWith(urlData,".csv")){
+          curSep=","
+        }
+        txtCon=textConnection(txt)
+        dataf = read.table(txtCon,sep = curSep, header = TRUE)
+        close(txtCon)
+      }
+    }
+  }
+  return(dataf)
+}
+
+filterGTF <- function(gtfDataFrame,splitIDColumn=FALSE,select="ALL"){
+  newDataf <- gtfDataFrame
+  if(splitIDColumn){
+    #temporary Only deal with first 2 IDs and assume they are in order GENE; Transcript;
+    newDataf <- newDataf %>% separate_wider_delim(cols="V9" , delim = ";",names=c("Gene","Transcript"), too_many = "drop")
+    newDataf <- newDataf %>% mutate(across('Gene', \(x) str_replace(x,'gene_id ', '')))
+    newDataf <- newDataf %>% mutate(across('Transcript', \(x) str_replace(x,'transcript_id ', '')))
+    #working on new code to handle any number of IDs and handle being out of order
+    #newDataf <- newDataf %>% separate_wider_delim(cols="V9" , delim = ";",names_sep = "_", names_repair = nameFunct)
+    #newDataf %>% mutate(across('V9_2', \(x) str_replace(x,'^ | $', '')))
+    #colList <- unique(newDataf %>% separate_wider_delim(cols="V9_*" , delim = " ", names="ID,VALUE")$ID)
+
+  }
+  if(select!="ALL"){
+    if(select=="TRANSCRIPTS"){
+      newDataf <- newDataf[grepl("transcript", newDataf$Feature),]
+    }else if(select=="EXONS"){
+      newDataf <- newDataf[grepl("exon", newDataf$Feature),]
+    }else{
+      warning("WARNING: select = ALL,TRANSCRIPTS,EXONS is supported.  No Filtering was performed.")
+    }
+  }
+  return(newDataf)
+}
 
 
+nameFunct <- function(name){
+  newName=name
 
-
+  return(newName)
+}
 
 
 

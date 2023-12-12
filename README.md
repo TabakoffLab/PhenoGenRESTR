@@ -42,6 +42,51 @@ testing first and will be implemented in development branch first.
 
 ### Data Sets
 
+#### getDatasetExpression()
+
+getDatasetExpression( annotation ,level,tissue,version="",genomeVersion="",strainMeans=FALSE, help) - returns a
+dataframe containing the most recent expression data table matching the annotation["Ensembl","Reconstruction"], level=["Gene","Transcript"],and tissue["Brain","Liver","Heart","Kidney"]. If you specify any
+version or genomeVersion the version or most recent version matching those criteria will be selected. It will default to 
+individual values, but by specifying strainMeans=TRUE you can get a dataFrame of strain means.
+
+
+##### Example
+
+```brainGeneExpression=getDatasetExpression(annotation="Ensembl",level="Gene",tissue="Brain")```
+
+| geneID           |ACI_1_batch11 |ACI_2_batch10 |ACI_3_batch8 |BN_1_batch16 |BN_2_batch17 |BN_3_batch17 |BNLx_1_batch3 | ... |
+|-----------------:|:------------:|:-------------|:------------|:------------|:------------|:------------|:-------------|-----|
+|ENSRNOG00000000001|5.4926754     |5.4582437     |5.4799894    |5.4593561    |5.6670520    |5.5736410    |5.523891      | ... |
+|ENSRNOG00000000007|13.4155761    |13.2379013    |13.4139346   |13.3752669   |13.6202354   |13.4379441   |13.095286     | ... |
+|ENSRNOG00000000008|4.5838578     |4.0120344     |4.0284626    |4.0093282    |4.0500272    |4.2187905    |3.505616      | ... |
+|ENSRNOG00000000010|11.3641079    |10.8430474    |11.3009947   |11.3939719   |11.2973067   |11.4022849   |11.410452     | ... |
+|ENSRNOG00000000012|4.2356596     |4.1371101     |3.7849114    |4.3626185    |4.2039562    |4.1742752    |4.219597      | ... |
+|ENSRNOG00000000017|5.7874644     |6.2132814     |5.7661025    |5.3906472    |5.3842575    |5.6754122    |5.381001      | ... |
+
+
+#### getDatasetExpressionTPM()
+
+getDatasetExpressionTPM( annotation ,level,tissue,version="",genomeVersion="",strainMeans=FALSE, help) - returns a
+dataframe containing the most recent expression data table containing TPM values matching the 
+annotation["Ensembl","Reconstruction"], level=["Gene","Transcript"],and tissue["Brain","Liver","Heart","Kidney"]. If you specify any
+version or genomeVersion the version or most recent version matching those criteria will be selected. It will default to 
+individual values, but by specifying strainMeans=TRUE you can get a dataFrame of strain means.
+
+
+##### Example
+
+```brainGeneExpressionTPM=getDatasetExpressionTPM(annotation="Ensembl",level="Gene",tissue="Brain")```
+
+| geneID           |ACI_1_batch11 |ACI_1_batch8 |ACI_2_batch10 |ACI_2_batch8 |ACI_3_batch8 |BN_1_batch16 |BN_2_batch17  | ... |
+|-----------------:|:------------:|:-------------|:------------|:------------|:------------|:------------|:------------|-----|
+|ENSRNOG00000000001|0.06          |0.00          |0.08         |0.07         |0.09         |0.07         |0.21         | ... |
+|ENSRNOG00000000007|13.73         |7.90          |18.07        |10.82        |20.76        |20.92        |50.75        | ... |
+|ENSRNOG00000000008|0.27          |0.00          |0.12         |0.22         |0.09         |0.05         |0.11         | ... |
+|ENSRNOG00000000009|0.01          |0.00          |0.00         |0.07         |0.00         |0.00         |0.00         | ... |
+|ENSRNOG00000000010|1.64          |2.17          |1.02         |0.91         |1.48         |6.53         |14.14        | ... |
+|ENSRNOG00000000012|0.14          |0.53          |0.16         |0.10         |0.06         |0.29         |0.32         | ... |
+
+
 #### getDatasets()
 
 getDatasets( genomeVer, organism, panel, type, tissue, help) - returns a
